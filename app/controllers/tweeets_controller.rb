@@ -1,11 +1,13 @@
 class TweeetsController < ApplicationController
   before_action :set_tweeet, only: [:show, :edit, :update, :destroy]
+  before_action :authenticate_user!, except: [:index, :show] 
 
   # GET /tweeets
   # GET /tweeets.json
   def index
     @tweeets = Tweeet.all.order('created_at DESC')
     @tweeet = Tweeet.new
+    @users = User.all
   end
 
   # GET /tweeets/1
@@ -14,7 +16,7 @@ class TweeetsController < ApplicationController
 
   # GET /tweeets/new
   def new
-    @tweeet = Tweeet.new
+    @tweeet = current_user.tweeets.build
   end
 
   # GET /tweeets/1/edit
@@ -23,7 +25,7 @@ class TweeetsController < ApplicationController
   # POST /tweeets
   # POST /tweeets.json
   def create
-    @tweeet = Tweeet.new(tweeet_params)
+    @tweeet = current_user.tweeets.build(tweeet_params)
 
     respond_to do |format|
       if @tweeet.save
@@ -41,7 +43,7 @@ class TweeetsController < ApplicationController
   def update
     respond_to do |format|
       if @tweeet.update(tweeet_params)
-        format.html { redirect_to @tweeet, notice: 'Tweeet was successfully updated.' }
+        format.html { redirect_to tweeets_path, notice: 'Tweeet was successfully updated.' }
         format.json { render :show, status: :ok, location: @tweeet }
       else
         format.html { render :edit }
