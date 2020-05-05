@@ -38,6 +38,7 @@ gem 'gravatar_image_tag', '~> 1.2'
 gem 'devise', '~> 4.7', '>= 4.7.1'
 
 gem 'jquery-rails'
+gem 'faker'
 
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.1.0', require: false
